@@ -1,0 +1,44 @@
+{% extends "booking/layout.html" %}
+
+{% block body %}
+
+
+<div class="container">
+
+    <h5 class="mt-4 mb-3">Our Coaches</h5>
+
+
+
+    {% for coach in coaches %}
+
+    <div class="card bg-light mb-3 border-secondary mb-3">
+        {% if coach.photo %}
+        <img src="{{ coach.photo.url }}" class="img-thumbnail" alt="" width="300">
+        {% endif %}
+        <h5 class="card-header">{{ coach.first_name }}</h5>
+        <div class="card-body">
+
+            <p class="card-text">{{ coach.bio }}</p>
+
+            <a href="{% url 'coachdetail' coach.id %}" class="btn btn-primary">Book</a>
+    
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+  
+</div>
+
+  
+{% endblock %}

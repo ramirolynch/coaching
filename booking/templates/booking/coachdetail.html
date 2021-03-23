@@ -1,0 +1,53 @@
+{% extends "booking/layout.html" %}
+
+{% block body %}
+
+
+<div class="container">
+
+    <h5 class="mt-4 mb-3"></h5>
+
+    <div class="card bg-light mb-3 border-secondary mb-3">
+        {% if coachname.photo %}
+        <img src="{{ coachname.photo.url }}" class="img-thumbnail" alt="" width="300">
+        {% endif %}
+
+            <h5 class="card-header">{{ coachname.first_name }}</h5>
+                <div class="card-body">
+
+                    <p class="card-text">{{ coachname.bio }}</p>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        {% for field in form.visible_fields %}
+                        <div class="fieldWrapper">
+                            {{ field.errors }}
+                            {{ field.label_tag }} {{ field }}
+                            {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <input class="mt-3" type="submit" value="Submit">
+                    </form>
+
+                </div>
+    </div>
+                
+
+
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+  
+</div>
+
+  
+{% endblock %}

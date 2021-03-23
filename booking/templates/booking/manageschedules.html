@@ -1,0 +1,84 @@
+{% extends "booking/layout.html" %}
+
+{% block body %}
+
+
+   
+<div class="container">
+
+    <h5 class="mt-4 mb-3">Create Schedule</h5>
+
+    <form action="{% url 'manageschedules' %}" method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+<!-- removed container div -->
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if avails %} 
+
+<h5 class="mt-4 mb-2">Manage Schedules</h5>
+
+{% for avail in avails %}
+<div class="card bg-light mb-3 border-secondary mb-3" id="card-{{avail.id}}">
+    <img src="{{ coach.url }}" alt="" width="300">
+        <h5 class="card-header">Coach: {{ avail.coach.first_name }}</h5>
+            <div class="card-body">
+                <p class="card-text" id="card-availdate-{{avail.id}}">Available From: {{ avail.date_available }}</p>
+                <p class="card-text" id="card-availuntil-{{avail.id}}">Available To: {{ avail.available_until }}</p>
+                <p class="card-text" id="card-starttime-{{avail.id}}">Start Time: {{ avail.start_time }}</p>
+                <p class="card-text" id="card-endtime-{{avail.id}}">End Time: {{ avail.end_time }}</p>
+
+                <div id="edit_form-{{ avail.id }}" style="display:none;">                       
+                    <form>         
+                        <label for="inputDateAvailable">Available From: </label>
+                        <input id="availdate-{{avail.id}}" value="{{ avail.date_available }}" type="date">
+                        <label for="inputAvailUntil">Available To: </label>
+                        <input id="availuntil-{{avail.id}}" value="{{ avail.available_until }}" type="date">
+                        <label for="inputStartTime">Start Time: </label>
+                        <input id="starttime-{{avail.id}}" type="time" value="{{ avail.start_time }}">
+                        <label for="inputEndTime">End Time: </label>
+                        <input id="endtime-{{avail.id}}" type="time" value="{{ avail.end_time }}">   
+                    </form>
+                </div>
+
+
+                <div id="edit-{{ avail.id }}" onclick="editSchedule('{{avail.id}}')">
+                  <a href="#" class="card-link" id="edit_button-{{avail.id}}">Edit</a>
+                </div>
+
+                <div id="delete-{{ avail.id }}" onclick="deleteSchedule('{{avail.id }}')">
+                    <a href="#" class="card-link" id="delete_button-{{avail.id}}">Delete</a>
+                </div>
+
+                <div id="save-{{ avail.id }}" onclick="saveSchedule('{{avail.id }}')" style="display:none;">
+                  <a href="#" class="card-link" id="save_button-{{avail.id}}">Save</a>
+                </div>
+
+            </div>
+</div> 
+<br>        
+{% endfor %}
+{% else %}
+<div>
+    <p>There are no schedules available at this time, feel free to create one :)</p>
+</div>
+
+{% endif %}
+
+
+<!-- end of container -->
+</div>
+  
+{% endblock %}

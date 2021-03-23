@@ -1,0 +1,65 @@
+{% extends "booking/layout.html" %}
+
+{% block body %}
+
+
+<div class="container">
+
+    <h5 class="mt-4 mb-3">My Bookings</h5>
+
+
+    {% if bookings %} 
+
+    {% for booking in bookings %}
+    <div class="card bg-light mb-3 border-secondary mb-3" id="card-{{ booking.id }}">
+        <img src="{{ coach.url }}" alt="" width="300">
+            <h5 class="card-header">Coach: {{ booking.coach_booked }}</h5>
+                <div class="card-body">
+                    <p class="card-text" id="card-datebooking-{{booking.id}}">Booking Date: {{ booking.date_booking }}</p>
+                    <p class="card-text" id="card-startbooking-{{booking.id}}">Start Time: {{ booking.start_booking }}</p>
+                    <p class="card-text" id="card-endbooking-{{booking.id}}">End Time: {{ booking.end_booking }}</p>
+
+
+                    <div id="edit_form-{{ booking.id }}" style="display:none;">                       
+                        <form>         
+                            <label for="inputDateBooking">Booking Date: </label>
+                            <input id="datebooking-{{booking.id}}" value="{{ booking.date_booking }}" type="date">
+                            <label for="inputStartBooking">Start Time: </label>
+                            <input id="startbooking-{{booking.id}}" value="{{ booking.start_booking }}" type="time">
+                            <label for="inputEndBooking">End Time: </label>
+                            <input id="endbooking-{{booking.id}}" type="time" value="{{ booking.end_time }}">
+                             
+                        </form>
+                    </div>
+
+                    <div id="edit-{{ booking.id }}" onclick="editBooking('{{booking.id}}')">
+                        <a href="#" class="card-link" id="edit_button-{{booking.id}}">Edit</a>
+                    </div>
+    
+                    <div id="delete-{{ booking.id }}" onclick="deleteBooking('{{booking.id }}')">
+                        <a href="#" class="card-link" id="delete_button-{{booking.id}}">Delete</a>
+                    </div>
+
+                    <div id="save-{{ booking.id }}" onclick="saveBooking('{{booking.id }}')" style="display:none;">
+                        <a href="#" class="card-link" id="save_button-{{booking.id}}">Save</a>
+                    </div>
+                
+                </div>
+    </div> 
+    <br>        
+    {% endfor %}
+
+
+    {% else %}
+
+    <p>Hi {{client}}, sorry but there are no bookings available with at this time!</p>
+   
+    {% endif %}
+
+
+
+</div>
+        
+
+
+{% endblock %}
